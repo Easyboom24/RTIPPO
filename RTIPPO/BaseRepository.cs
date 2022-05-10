@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace RTIPPO
 {
     internal class BaseRepository : DbContext
-    {         
-        private DbSet<Pets_Application>? Application { get; set; }
+    {
+        private DbSet<Pets_Application>? Pets_Application { get; set; }
         private DbSet<Status>? Status { get; set; }
         private DbSet<Applicant>? Applicant { get; set; }
         private DbSet<Urgency>? Urgency { get; set; }
@@ -23,13 +23,14 @@ namespace RTIPPO
         private DbSet<Type_Enterprise>? Type_Enterprise { get; set; }
         private DbSet<Locality>? Locality { get; set; }
         private DbSet<Municipality>? Municipality { get; set; }
+        private DbSet<Status_History>? Status_History { get; set; } 
 
-        private string joinAnimal = " LEFT JOIN \"Animal\" ON \"Application\".\"Animal_FK\"=\"Animal\".\"Animal_Id\"";
+        private string joinAnimal = " LEFT JOIN \"Animal\" ON \"Pets_Application\".\"Animal_FK\"=\"Animal\".\"Animal_Id\"";
         private string joinAnimalCategory = " LEFT JOIN \"Animal_Category\" ON \"Animal\".\"Category_FK\"=\"Animal_Category\".\"Category_Id\"";
-        private string joinOrganization = " LEFT JOIN \"Organization\" ON \"Application\".\"Organization_FK\"=\"Organization\".\"Organization_Id\"";
-        private string joinUrgency = " LEFT JOIN \"Urgency\" ON \"Application\".\"Urgency_FK\"=\"Urgency\".\"Urgency_Id\"";
-        private string joinStatus = " LEFT JOIN \"Status\" ON \"Application\".\"Status_FK\"=\"Status\".\"Status_Id\"";
-        private string joinLocality = " LEFT JOIN \"Locality\" ON \"Application\".\"Locality_FK\"=\"Locality\".\"Locality_Id\"";
+        private string joinOrganization = " LEFT JOIN \"Organization\" ON \"Pets_Application\".\"Organization_FK\"=\"Organization\".\"Organization_Id\"";
+        private string joinUrgency = " LEFT JOIN \"Urgency\" ON \"Pets_Application\".\"Urgency_FK\"=\"Urgency\".\"Urgency_Id\"";
+        private string joinStatus = " LEFT JOIN \"Status\" ON \"Pets_Application\".\"Status_FK\"=\"Status\".\"Status_Id\"";
+        private string joinLocality = " LEFT JOIN \"Locality\" ON \"Pets_Application\".\"Locality_FK\"=\"Locality\".\"Locality_Id\"";
 
         public BaseRepository() 
         {
@@ -45,20 +46,37 @@ namespace RTIPPO
             var localities = this?.Locality?.ToList();
             var municipalities = this?.Municipality?.ToList();
             var enterprises = this?.Type_Enterprise?.ToList();
+            var status_history = this?.Status_History?.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
             => optionsBuilder
             .UseNpgsql("Host=localhost;Port=5432;Database=Pets;Username=postgres;Password=123123");
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Status_History>()
+            .HasKey(t => new { t.Pets_Application_Id, t.Status_Id });
+
+            modelBuilder.Entity<Status_History>()
+                    .HasOne(pt => pt.Status)
+                    .WithMany(p=>p.Status_History)
+                    .HasForeignKey(pt=>pt.Status_Id);
+
+            modelBuilder.Entity<Status_History>()
+                    .HasOne(pt => pt.Pets_Application)
+                    .WithMany(p => p.Status_History)
+                    .HasForeignKey(pt => pt.Pets_Application_Id);
+        }
+
         public Pets_Application? GetApplication(int idApplication)
-            => Application?.Where(a => a.Application_Id == idApplication).ToList().First();
+            => Pets_Application?.Where(a => a.Pets_Application_Id == idApplication).ToList().First();
         
 
         public List<Pets_Application>? GetAllApplications(int countApplications, Dictionary<string,string> sorting, Dictionary<string, Tuple<string, string, int>> filters)
         {
             string query = Create_Query_String(sorting, filters);
-            return this.Application?.FromSqlRaw(query).Take(countApplications).ToList();
+            return this.Pets_Application?.FromSqlRaw(query).Take(countApplications).ToList();
         }
 
         public void CreateApplication(Pets_Application application)
@@ -74,9 +92,9 @@ namespace RTIPPO
         public void DeleteApplications(List<int> idApplications)
         {
             foreach(int idApplication in idApplications) {
-                var application = Application?.Where(app => app.Application_Id == idApplication).First();
+                var application = Pets_Application?.Where(app => app.Pets_Application_Id == idApplication).First();
                 if(application?.Status_FK == 1)
-                    Application?.Remove(application);
+                    Pets_Application?.Remove(application);
             }
             SaveChanges();
         }
@@ -85,7 +103,7 @@ namespace RTIPPO
         {
             string query = Create_Query_String(sorting,filters);
 
-            return this.Application?.FromSqlRaw(query).ToList();
+            return this.Pets_Application?.FromSqlRaw(query).ToList();
         }
 
         private string Sorted(Dictionary<string, string> sorting) 
@@ -118,7 +136,7 @@ namespace RTIPPO
 
         private string Create_Query_String(Dictionary<string, string> sorting, Dictionary<string, Tuple<string, string, int>> filters) 
         {
-            string query = "SELECT * FROM \"Application\"";
+            string query = "SELECT * FROM \"Pets_Application\"";
             string filters_query = "";
             string sorting_query = "";
 

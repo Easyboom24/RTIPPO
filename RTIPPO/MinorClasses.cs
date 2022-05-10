@@ -87,6 +87,7 @@ namespace RTIPPO
         [Key]
         public int Status_Id { get; set; }
         public string? Status_Name { get; set; }
+        public List<Status_History> Status_History { get; set; }
     }
 
     internal class Organization 
@@ -142,5 +143,23 @@ namespace RTIPPO
         [Key]
         public int Urgency_Id { get; set; }
         public string? Urgency_Name { get; set; }
+    }
+
+    internal class Status_History 
+    {
+        [Key]
+        public int History_Id { get; set; }
+        
+        
+        public int Pets_Application_Id { get; set; }
+
+        public Pets_Application Pets_Application { get; set; }
+
+        public int Status_Id { get; set; }
+
+        public Status Status { get; set; }
+
+        public DateOnly Current_Date_Status { get; set; }
+
     }
 }

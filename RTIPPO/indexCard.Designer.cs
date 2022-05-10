@@ -85,6 +85,8 @@ namespace RTIPPO
             this.label9 = new System.Windows.Forms.Label();
             this.email = new System.Windows.Forms.TextBox();
             this.order = new System.Windows.Forms.TabPage();
+            this.label29 = new System.Windows.Forms.Label();
+            this.history_status_textbox = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -681,6 +683,8 @@ namespace RTIPPO
             // 
             // order
             // 
+            this.order.Controls.Add(this.label29);
+            this.order.Controls.Add(this.history_status_textbox);
             this.order.Controls.Add(this.label20);
             this.order.Controls.Add(this.label19);
             this.order.Controls.Add(this.label18);
@@ -713,6 +717,26 @@ namespace RTIPPO
             this.order.TabIndex = 1;
             this.order.Text = "Заявка";
             this.order.UseVisualStyleBackColor = true;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(465, 134);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(160, 15);
+            this.label29.TabIndex = 35;
+            this.label29.Text = "История изменения статуса";
+            // 
+            // history_status_textbox
+            // 
+            this.history_status_textbox.Enabled = false;
+            this.history_status_textbox.Location = new System.Drawing.Point(465, 161);
+            this.history_status_textbox.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.history_status_textbox.Multiline = true;
+            this.history_status_textbox.Name = "history_status_textbox";
+            this.history_status_textbox.Size = new System.Drawing.Size(264, 93);
+            this.history_status_textbox.TabIndex = 34;
             // 
             // label20
             // 
@@ -1000,5 +1024,7 @@ namespace RTIPPO
         private System.Windows.Forms.TextBox firDirector;
         private System.Windows.Forms.TextBox surDirector;
         private System.Windows.Forms.TextBox addressUr;
+        private Label label29;
+        private TextBox history_status_textbox;
     }
 }

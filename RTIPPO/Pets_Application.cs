@@ -11,7 +11,7 @@ namespace RTIPPO
     internal class Pets_Application
     {
         [Key]
-        public int Application_Id { get; set; }
+        public int Pets_Application_Id { get; set; }
         public int Application_Number { get; set; }
         public DateOnly Filling_Date { get; set; }
 
@@ -41,5 +41,6 @@ namespace RTIPPO
         public int Applicant_FK { get; set; }
         public Applicant? Applicant { get; set; }
         public string? Reason { get; set; }
+        public List<Status_History> Status_History { get; set; }
     }
 }

@@ -80,6 +80,8 @@ namespace RTIPPO
                 reason.Text = application?.Reason ?? "";
                 sex.Text = application?.Animal?.Animal_Sex?.Sex_Name ?? "";
 
+                foreach (var status in application?.Status_History)
+                    history_status_textbox.Text += status.Status.Status_Name+ "-" + status.Current_Date_Status + Environment.NewLine;
 
                 surname.Text = application?.Applicant?.Applicant_Surname ?? "";
                 firstname.Text = application?.Applicant?.Applicant_Firstname ?? "";
@@ -88,6 +90,7 @@ namespace RTIPPO
                 email.Text = application?.Applicant?.Applicant_Email ?? "";
                 address.Text = application?.Applicant?.Applicant_Address ?? "";
 
+                applicantCategory.Text = application?.Applicant?.Organization?.Type_Enterprise.Type_Enterprise_Name ?? "Физ. лицо";
            
                 INN.Text = application?.Applicant?.Organization?.INN ?? "";
                 KPP.Text = application?.Applicant?.Organization?.KPP ?? "";

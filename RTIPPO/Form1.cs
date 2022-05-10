@@ -30,10 +30,10 @@ namespace RTIPPO
             dataGridView1.Rows.Clear();
             foreach (Pets_Application app in applications)
             {
-                dataGridView1.Rows.Add(app.Application_Id, app.Filling_Date,
+                dataGridView1.Rows.Add(app.Pets_Application_Id, app.Filling_Date,
                     app.Application_Number, app?.Applicant?.Organization?.Type_Enterprise?.Type_Enterprise_Name ?? "Физ. лицо",
                     app?.Locality?.Locality_Name,app?.Animal?.Habitat,app?.Animal?.Animal_Category?.Category_Name,
-                    app?.Urgency?.Urgency_Name, app?.Organization?.Organization_Name, app?.Status?.Status_Name,app?.Status_Date);
+                    app?.Urgency?.Urgency_Name, app?.Organization?.Organization_Name, app?.Status?.Status_Name ,app?.Status_Date);
             }
         }
         private void button4_Click(object sender, EventArgs e)
