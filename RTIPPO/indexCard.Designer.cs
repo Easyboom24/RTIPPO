@@ -117,6 +117,7 @@ namespace RTIPPO
             this.place.Name = "place";
             this.place.Size = new System.Drawing.Size(184, 23);
             this.place.TabIndex = 0;
+            this.place.Text = "Тюмень";
             // 
             // Num
             // 
@@ -229,6 +230,7 @@ namespace RTIPPO
             this.habitat.Name = "habitat";
             this.habitat.Size = new System.Drawing.Size(184, 23);
             this.habitat.TabIndex = 11;
+            this.habitat.Text = "Подъезд";
             // 
             // status
             // 
@@ -313,6 +315,7 @@ namespace RTIPPO
             this.delete.Text = "Удалить";
             this.delete.UseVisualStyleBackColor = true;
             this.delete.Visible = false;
+            this.delete.Click += new System.EventHandler(this.delete_Click);
             // 
             // save
             // 
@@ -346,6 +349,7 @@ namespace RTIPPO
             this.regNum.Name = "regNum";
             this.regNum.Size = new System.Drawing.Size(116, 23);
             this.regNum.TabIndex = 22;
+            this.regNum.Text = "3000";
             // 
             // form
             // 
@@ -579,6 +583,7 @@ namespace RTIPPO
             this.patronymic.Name = "patronymic";
             this.patronymic.Size = new System.Drawing.Size(188, 23);
             this.patronymic.TabIndex = 27;
+            this.patronymic.Text = "Олеговна";
             // 
             // firstname
             // 
@@ -588,6 +593,7 @@ namespace RTIPPO
             this.firstname.Name = "firstname";
             this.firstname.Size = new System.Drawing.Size(188, 23);
             this.firstname.TabIndex = 26;
+            this.firstname.Text = "Анастасия";
             // 
             // surname
             // 
@@ -597,6 +603,7 @@ namespace RTIPPO
             this.surname.Name = "surname";
             this.surname.Size = new System.Drawing.Size(188, 23);
             this.surname.TabIndex = 25;
+            this.surname.Text = "Шестакова";
             // 
             // label23
             // 
@@ -636,6 +643,7 @@ namespace RTIPPO
             this.address.Name = "address";
             this.address.Size = new System.Drawing.Size(188, 23);
             this.address.TabIndex = 21;
+            this.address.Text = "Тюмень";
             // 
             // label11
             // 
@@ -685,6 +693,7 @@ namespace RTIPPO
             this.email.Name = "email";
             this.email.Size = new System.Drawing.Size(188, 23);
             this.email.TabIndex = 16;
+            this.email.Text = "est@e.ru";
             // 
             // order
             // 
@@ -864,6 +873,7 @@ namespace RTIPPO
             this.ears.Name = "ears";
             this.ears.Size = new System.Drawing.Size(130, 23);
             this.ears.TabIndex = 22;
+            this.ears.Text = "Короткие";
             // 
             // reason
             // 
@@ -873,6 +883,7 @@ namespace RTIPPO
             this.reason.Name = "reason";
             this.reason.Size = new System.Drawing.Size(264, 23);
             this.reason.TabIndex = 21;
+            this.reason.Text = "агрессия";
             // 
             // signs
             // 
@@ -882,6 +893,7 @@ namespace RTIPPO
             this.signs.Name = "signs";
             this.signs.Size = new System.Drawing.Size(313, 23);
             this.signs.TabIndex = 20;
+            this.signs.Text = "нет";
             // 
             // tail
             // 
@@ -891,6 +903,7 @@ namespace RTIPPO
             this.tail.Name = "tail";
             this.tail.Size = new System.Drawing.Size(184, 23);
             this.tail.TabIndex = 19;
+            this.tail.Text = "Короткий";
             // 
             // color
             // 
@@ -900,6 +913,7 @@ namespace RTIPPO
             this.color.Name = "color";
             this.color.Size = new System.Drawing.Size(184, 23);
             this.color.TabIndex = 18;
+            this.color.Text = "черная";
             // 
             // category
             // 

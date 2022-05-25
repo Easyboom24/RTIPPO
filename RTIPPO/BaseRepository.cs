@@ -78,26 +78,30 @@ namespace RTIPPO
             return this.Pets_Application?.FromSqlRaw(query).Take(countApplications).ToList();
         }
 
-        public void CreateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null)
+        public void CreateApplication(Organization? org, Applicant? appt, Animal ani, Pets_Application appl)
         {
-            //org
+            if (org != null) Organization?.Add(org);
+            if (appt != null) Applicant?.Add(appt);
 
-
-            /////////
-            Applicant?.Add(applicant);
-
-            Animal?.Add(animal);
-            Pets_Application?.Add(application);
+            if (ani != null) Animal?.Add(ani);
+            if (appl != null) Pets_Application?.Add(appl);
             SaveChanges();
         }
 
-        public void UpdateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null)
+        public void UpdateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application)
         {
-            Organization?.Update(organization);
-            Applicant?.Update(applicant);
-            Animal?.Update(animal);
-            Pets_Application?.Update(application);
+            if (organization != null) Organization?.Update(organization);
+            if (applicant != null) Applicant?.Update(applicant);
+            if (animal != null) Animal?.Update(animal);
+            if (application != null) Pets_Application?.Update(application);
+
             SaveChanges();
+        }
+
+        public User Authrization(string login, string password)
+        {
+            User user = new User();
+            return user;
         }
 
         public void DeleteApplications(List<int> idApplications)
@@ -185,12 +189,6 @@ namespace RTIPPO
         
         private string Create_Query_SubString(string from) => $"SELECT * FROM \"{from}\"";
         
-        public User Authrization(string login, string password)
-        {
-            User user = new User();
-            return user;
-        }
-
         public List<Locality>? GetAllLocality()
         {
             string query = Create_Query_SubString("Locality");
@@ -238,5 +236,20 @@ namespace RTIPPO
             string query = "SELECT * FROM \"Organization\" WHERE \"Type_FK\" = 4";
             return this.Organization?.FromSqlRaw(query).ToList();
         }
+
+        public Organization? GetOrganization(string? INN, int? id = null)
+            => (id == null) ? ((Organization?.Where(a => a.INN == INN).ToList().Count != 0) ? Organization?.Where(a => a.INN == INN).ToList().First() : null) :
+            Organization?.Where(a => a.Organization_Id == id).ToList().First();
+
+        public Applicant? GetApplicant(string? phone, string? email, int? id = null)
+            => (id == null) ?((Applicant?.Where(a => a.Applicant_Phone == phone && a.Applicant_Email == email).ToList().Count != 0) ? 
+            Applicant?.Where(a => a.Applicant_Phone == phone && a.Applicant_Email == email).ToList().First() : null):
+            Applicant?.Where(a => a.Applicant_Id == id).ToList().First();
+
+        public Animal? GetAnimal(int id ) => Animal?.Where(a => a.Animal_Id == id).ToList().First();
+
+        public int GetLastAnimal() => Animal.ToList().Max(p => p.Animal_Id);
+
+        public int GetLastApplicant() => Applicant.ToList().Max(p => p.Applicant_Id);
     }
 }

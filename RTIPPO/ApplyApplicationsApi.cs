@@ -23,11 +23,11 @@ namespace RTIPPO
             Dictionary<string, Tuple<string, string, int>> filters)
             => repository.GetAllApplications(countApplications,sorting,filters);
         
-        public void CreateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null) => 
-            repository.CreateApplication(application, applicant, animal, organization);
+        public void CreateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application) => 
+            repository.CreateApplication(organization, applicant, animal, application);
 
-        public void UpdateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null) =>
-            repository.UpdateApplication(application, applicant, animal, organization);
+        public void UpdateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application) =>
+            repository.UpdateApplication(organization, applicant, animal, application);
 
         public void DeleteApplications(List<int> applications) => repository.DeleteApplications(applications);
         
@@ -70,19 +70,18 @@ namespace RTIPPO
             => repository.Authrization(login, password);
 
         public List<Locality>? GetAllLocality() => repository.GetAllLocality();
-
         public List<Status>? GetAllStatus() => repository.GetAllStatus();
-
         public List<Urgency>? GetAllUrgency() => repository.GetAllUrgency();
-
         public List<Animal_Category>? GetAllAnimal_Category() => repository.GetAllAnimal_Category();
-
         public List<Animal_Wool>? GetAllAnimal_Wool() => repository.GetAllAnimal_Wool();
-
         public List<Animal_Size>? GetAllAnimal_Size() =>repository.GetAllAnimal_Size();
-
         public List<Animal_Sex>? GetAllAnimal_Sex() => repository.GetAllAnimal_Sex();
-
         public List<Organization>? GetAllTrapOrg() => repository.GetAllTrapOrg();
+
+        public int GetLastAnimal() => repository.GetLastAnimal();
+        public int GetLastApplicant() => repository.GetLastApplicant();
+        public Organization? GetOrganization(string? INN, int? id = null) => repository.GetOrganization(INN, id);
+        public Applicant? GetApplicant(string? phone, string? email, int? id = null) => repository.GetApplicant(phone, email, id);
+        public Animal? GetAnimal(int id) => repository.GetAnimal(id);
     }
 }
