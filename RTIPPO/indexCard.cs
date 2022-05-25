@@ -15,6 +15,8 @@ namespace RTIPPO
     {
         ApplyApplicationsApi Api = new ApplyApplicationsApi();
         internal Pets_Application application;
+        internal User? user;
+
         public indexCard()
         {
             InitializeComponent();
@@ -159,6 +161,12 @@ namespace RTIPPO
                 patDirector.ReadOnly = true;
             }
 
+            if (user.Role_FK != 7)
+            {
+                edit_Visible();
+                createAp.Visible = false;
+                exportWord.Visible = true;
+            }
         }
 
         private void fill_combobox()
@@ -248,20 +256,6 @@ namespace RTIPPO
         {
             inverse_enable();
 
-            Organization? organization = Api.GetOrganization(INN.Text, application.Organization_FK);
-            if (organization != null)
-            {
-                organization.INN = INN.Text;
-                organization.KPP = KPP.Text;
-                organization.Organization_Name = name.Text;
-                organization.Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null;
-                organization.Phone = phoneUr.Text ?? null;
-                organization.Surname_Director = surDirector.Text ?? null;
-                organization.Firstname_Director = firDirector.Text ?? null;
-                organization.Patronymic_Director = patDirector.Text ?? null;
-                organization.Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key;
-            }
-
             Applicant? applicant = Api.GetApplicant(phone.Text, email.Text, application.Applicant_FK);
             if (applicant != null)
             {
@@ -288,11 +282,23 @@ namespace RTIPPO
                 animal.Category_FK = ((KeyValuePair<int, string>)category.SelectedItem).Key;
             };
 
+            Organization? organization = (INN.Text != null) ? Api.GetOrganization(INN.Text, applicant.Applicant_Organization_FK) : null;
+            if (organization != null)
+            {
+                organization.INN = INN.Text;
+                organization.KPP = KPP.Text;
+                organization.Organization_Name = name.Text;
+                organization.Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null;
+                organization.Phone = phoneUr.Text ?? null;
+                organization.Surname_Director = surDirector.Text ?? null;
+                organization.Firstname_Director = firDirector.Text ?? null;
+                organization.Patronymic_Director = patDirector.Text ?? null;
+                organization.Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key;
+            }
+
             if (application!= null)
             {
                 application.Application_Number = int.Parse(regNum.Text);
-                application.Filling_Date = DateOnly.FromDateTime(dateApplication.Value);
-                application.Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key;
                 application.Organization_FK = ((KeyValuePair<int, string>)trappingOrg.SelectedItem).Key;
                 application.Status_FK = ((KeyValuePair<int, string>)status.SelectedItem).Key;
                 application.Status_Date = DateOnly.FromDateTime(dateStatus.Value);
@@ -307,7 +313,6 @@ namespace RTIPPO
                 this.Close();
             }
         }
-
 
         private void createAp_Click(object sender, EventArgs e)
         {

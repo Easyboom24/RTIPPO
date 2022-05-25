@@ -10,12 +10,13 @@ namespace RTIPPO
     internal class ApplyApplicationsApi
     {
         private readonly BaseRepository repository = new BaseRepository();
-        private readonly User user;
 
-        public ApplyApplicationsApi(User user=null) 
+        public ApplyApplicationsApi() 
         {
-            
+
         }
+        public User? Authrization(string login, string password)
+            => repository.Authrization(login, password);
 
         public Pets_Application? GetApplication(int idApplication) => repository.GetApplication(idApplication);
         
@@ -65,9 +66,6 @@ namespace RTIPPO
 
             workBook.SaveAs(pathToFile);
         }
-
-        public User Authrization(BaseRepository repository, string login, string password) 
-            => repository.Authrization(login, password);
 
         public List<Locality>? GetAllLocality() => repository.GetAllLocality();
         public List<Status>? GetAllStatus() => repository.GetAllStatus();

@@ -23,7 +23,8 @@ namespace RTIPPO
         private DbSet<Type_Enterprise>? Type_Enterprise { get; set; }
         private DbSet<Locality>? Locality { get; set; }
         private DbSet<Municipality>? Municipality { get; set; }
-        private DbSet<Status_History>? Status_History { get; set; } 
+        private DbSet<Status_History>? Status_History { get; set; }
+        private DbSet<User>? User { get; set; }
 
         private string joinAnimal = " LEFT JOIN \"Animal\" ON \"Pets_Application\".\"Animal_FK\"=\"Animal\".\"Animal_Id\"";
         private string joinAnimalCategory = " LEFT JOIN \"Animal_Category\" ON \"Animal\".\"Category_FK\"=\"Animal_Category\".\"Category_Id\"";
@@ -47,6 +48,8 @@ namespace RTIPPO
             var municipalities = this?.Municipality?.ToList();
             var enterprises = this?.Type_Enterprise?.ToList();
             var status_history = this?.Status_History?.ToList();
+
+            var users = this?.User?.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
@@ -88,21 +91,18 @@ namespace RTIPPO
             SaveChanges();
         }
 
-        public void UpdateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application)
+        public void UpdateApplication(Organization? org, Applicant? applicant, Animal animal, Pets_Application application)
         {
-            if (organization != null) Organization?.Update(organization);
+            //if (application != null) Pets_Application?.Update(application);
+
+            if (org != null) Organization?.Update(org); 
             if (applicant != null) Applicant?.Update(applicant);
             if (animal != null) Animal?.Update(animal);
-            if (application != null) Pets_Application?.Update(application);
-
             SaveChanges();
         }
 
-        public User Authrization(string login, string password)
-        {
-            User user = new User();
-            return user;
-        }
+        public User? Authrization(string login, string password) => (User?.Where(a => a.Login == login && a.Password == password).ToList().Count != 0) ?
+            User?.Where(a => a.Login == login && a.Password == password).ToList().First() : null;
 
         public void DeleteApplications(List<int> idApplications)
         {

@@ -12,6 +12,8 @@ namespace RTIPPO
 {
     public partial class Form1 : Form
     {
+        internal User? user;
+
         public bool hide = false;
         public int id;
         protected int countApplications = 2;
@@ -121,6 +123,7 @@ namespace RTIPPO
             id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
             indexCard f2 = new indexCard();
             f2.application = Api.GetApplication(id);
+            f2.user = user;
             f2.ShowDialog();
         }
 
@@ -135,10 +138,9 @@ namespace RTIPPO
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 1)
+            if (dataGridView1.SelectedRows.Count == 1 && user!=null)
                 button2.Enabled = true;
-            else
-                button2.Enabled = false;
+            else button2.Enabled = false;
 
             boolDelete = true;
             foreach (DataGridViewRow row in dataGridView1.SelectedRows) 
@@ -153,6 +155,13 @@ namespace RTIPPO
 
         public void Form1_Load(object sender, EventArgs e)
         {
+            if(user == null || user.Role_FK != 7)
+            {
+                button1.Enabled = false;
+                button3.Enabled = false;
+                if (user == null) button2.Enabled = false;
+            }
+
             List<Pets_Application> apps = Api.GetAllApplications(countApplications, sorting, filters);
             FillDataGrid(apps);
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -195,6 +204,11 @@ namespace RTIPPO
         {
             indexCard f2 = new indexCard();
             f2.ShowDialog();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     } 
 }   
