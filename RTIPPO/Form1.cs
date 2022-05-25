@@ -155,12 +155,13 @@ namespace RTIPPO
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            if(user == null || user.Role_FK != 7)
+            if (user == null || user.Role_FK != 7)
             {
                 button1.Enabled = false;
                 button3.Enabled = false;
                 if (user == null) button2.Enabled = false;
             }
+            //else button4.Enabled = true;
 
             List<Pets_Application> apps = Api.GetAllApplications(countApplications, sorting, filters);
             FillDataGrid(apps);

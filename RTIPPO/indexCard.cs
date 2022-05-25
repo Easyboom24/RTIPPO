@@ -22,11 +22,6 @@ namespace RTIPPO
             InitializeComponent();
         }
 
-        private void edit_Click(object sender, EventArgs e)
-        {
-            inverse_enable();
-        }
-
         private void inverse_enable()
         {
             dateApplication.Enabled = !dateApplication.Enabled;
@@ -71,7 +66,88 @@ namespace RTIPPO
             patDirector.Enabled = !patDirector.Enabled;
         }
 
-        private void back_Click(object sender, EventArgs e) => Close();
+        private void fill_combobox()
+        {
+            var sourse = Api.GetAllStatus();
+
+            Dictionary<int, string> comboBoxSource = new Dictionary<int, string>(sourse.Count);
+            foreach (var i in sourse)
+                comboBoxSource.Add(i.Status_Id, i.Status_Name);
+
+            status.DataSource = new BindingSource(comboBoxSource, null);
+            status.DisplayMember = "Value";
+            status.ValueMember = "Key";
+
+            var sourseCat = Api.GetAllAnimal_Category();
+
+            comboBoxSource = new Dictionary<int, string>(sourseCat.Count);
+            foreach (var i in sourseCat)
+                comboBoxSource.Add(i.Category_Id, i.Category_Name);
+
+            category.DataSource = new BindingSource(comboBoxSource, null);
+            category.DisplayMember = "Value";
+            category.ValueMember = "Key";
+
+            var sourseAnSex = Api.GetAllAnimal_Sex();
+
+            comboBoxSource = new Dictionary<int, string>(sourseAnSex.Count);
+            foreach (var i in sourseAnSex)
+                comboBoxSource.Add(i.Sex_Id, i.Sex_Name);
+
+            sex.DataSource = new BindingSource(comboBoxSource, null);
+            sex.DisplayMember = "Value";
+            sex.ValueMember = "Key";
+
+            var sourseAnSize = Api.GetAllAnimal_Size();
+
+            comboBoxSource = new Dictionary<int, string>(sourseAnSize.Count);
+            foreach (var i in sourseAnSize)
+                comboBoxSource.Add(i.Size_Id, i.Size_Name);
+
+            sizeAnimal.DataSource = new BindingSource(comboBoxSource, null);
+            sizeAnimal.DisplayMember = "Value";
+            sizeAnimal.ValueMember = "Key";
+
+            var sourseAnWool = Api.GetAllAnimal_Wool();
+
+            comboBoxSource = new Dictionary<int, string>(sourseAnWool.Count);
+            foreach (var i in sourseAnWool)
+                comboBoxSource.Add(i.Wool_Id, i.Wool_Name);
+
+            wool.DataSource = new BindingSource(comboBoxSource, null);
+            wool.DisplayMember = "Value";
+            wool.ValueMember = "Key";
+
+            var sourseLoc = Api.GetAllLocality();
+
+            comboBoxSource = new Dictionary<int, string>(sourseLoc.Count);
+            foreach (var i in sourseLoc)
+                comboBoxSource.Add(i.Locality_Id, i.Locality_Name);
+
+            addressUr.DataSource = new BindingSource(comboBoxSource, null);
+            addressUr.DisplayMember = "Value";
+            addressUr.ValueMember = "Key";
+
+            var sourseUrgency = Api.GetAllUrgency();
+
+            comboBoxSource = new Dictionary<int, string>(sourseUrgency.Count);
+            foreach (var i in sourseUrgency)
+                comboBoxSource.Add(i.Urgency_Id, i.Urgency_Name);
+
+            urgency.DataSource = new BindingSource(comboBoxSource, null);
+            urgency.DisplayMember = "Value";
+            urgency.ValueMember = "Key";
+
+            var sourseTrap = Api.GetAllTrapOrg();
+
+            comboBoxSource = new Dictionary<int, string>(sourseTrap.Count);
+            foreach (var i in sourseTrap)
+                comboBoxSource.Add(i.Organization_Id, i.Organization_Name);
+
+            trappingOrg.DataSource = new BindingSource(comboBoxSource, null);
+            trappingOrg.DisplayMember = "Value";
+            trappingOrg.ValueMember = "Key";
+        }
 
         private void indexCard_Load(object sender, EventArgs e)
         {
@@ -161,7 +237,7 @@ namespace RTIPPO
                 patDirector.ReadOnly = true;
             }
 
-            if (user.Role_FK != 7)
+            if (user != null && user.Role_FK != 7)
             {
                 edit_Visible();
                 createAp.Visible = false;
@@ -169,88 +245,6 @@ namespace RTIPPO
             }
         }
 
-        private void fill_combobox()
-        {
-            var sourse = Api.GetAllStatus();
-
-            Dictionary<int, string> comboBoxSource = new Dictionary<int, string>(sourse.Count);
-            foreach (var i in sourse)
-                comboBoxSource.Add(i.Status_Id, i.Status_Name);
-
-            status.DataSource = new BindingSource(comboBoxSource, null);
-            status.DisplayMember = "Value";
-            status.ValueMember = "Key";
-
-            var sourseCat = Api.GetAllAnimal_Category();
-
-            comboBoxSource = new Dictionary<int, string>(sourseCat.Count);
-            foreach (var i in sourseCat)
-                comboBoxSource.Add(i.Category_Id, i.Category_Name);
-
-            category.DataSource = new BindingSource(comboBoxSource, null);
-            category.DisplayMember = "Value";
-            category.ValueMember = "Key";
-
-            var sourseAnSex = Api.GetAllAnimal_Sex();
-
-            comboBoxSource = new Dictionary<int, string>(sourseAnSex.Count);
-            foreach (var i in sourseAnSex)
-                comboBoxSource.Add(i.Sex_Id, i.Sex_Name);
-
-            sex.DataSource = new BindingSource(comboBoxSource, null);
-            sex.DisplayMember = "Value";
-            sex.ValueMember = "Key";
-
-            var sourseAnSize = Api.GetAllAnimal_Size();
-
-            comboBoxSource = new Dictionary<int, string>(sourseAnSize.Count);
-            foreach (var i in sourseAnSize)
-                comboBoxSource.Add(i.Size_Id, i.Size_Name);
-
-            sizeAnimal.DataSource = new BindingSource(comboBoxSource, null);
-            sizeAnimal.DisplayMember = "Value";
-            sizeAnimal.ValueMember = "Key";
-
-            var sourseAnWool = Api.GetAllAnimal_Wool();
-
-            comboBoxSource = new Dictionary<int, string>(sourseAnWool.Count);
-            foreach (var i in sourseAnWool)
-                comboBoxSource.Add(i.Wool_Id, i.Wool_Name);
-
-            wool.DataSource = new BindingSource(comboBoxSource, null);
-            wool.DisplayMember = "Value";
-            wool.ValueMember = "Key";
-
-            var sourseLoc = Api.GetAllLocality();
-
-            comboBoxSource = new Dictionary<int, string>(sourseLoc.Count);
-            foreach (var i in sourseLoc)
-                comboBoxSource.Add(i.Locality_Id, i.Locality_Name);
-
-            addressUr.DataSource = new BindingSource(comboBoxSource, null);
-            addressUr.DisplayMember = "Value";
-            addressUr.ValueMember = "Key";
-
-            var sourseUrgency = Api.GetAllUrgency();
-
-            comboBoxSource = new Dictionary<int, string>(sourseUrgency.Count);
-            foreach (var i in sourseUrgency)
-                comboBoxSource.Add(i.Urgency_Id, i.Urgency_Name);
-
-            urgency.DataSource = new BindingSource(comboBoxSource, null);
-            urgency.DisplayMember = "Value";
-            urgency.ValueMember = "Key";
-
-            var sourseTrap = Api.GetAllTrapOrg();
-
-            comboBoxSource = new Dictionary<int, string>(sourseTrap.Count);
-            foreach (var i in sourseTrap)
-                comboBoxSource.Add(i.Organization_Id, i.Organization_Name);
-
-            trappingOrg.DataSource = new BindingSource(comboBoxSource, null);
-            trappingOrg.DisplayMember = "Value";
-            trappingOrg.ValueMember = "Key";
-        }
 
         private void save_Click(object sender, EventArgs e)
         {
@@ -312,6 +306,11 @@ namespace RTIPPO
                 MessageBox.Show($"Данные обновлены");
                 this.Close();
             }
+        }
+
+        private void edit_Click(object sender, EventArgs e)
+        {
+            inverse_enable();
         }
 
         private void createAp_Click(object sender, EventArgs e)
@@ -385,6 +384,20 @@ namespace RTIPPO
             this.Close();
         }
 
+        private void delete_Click(object sender, EventArgs e)
+        {
+
+            List<int> idApps = new List<int>();
+            idApps.Add(application.Pets_Application_Id);
+
+            Form2 f2 = new Form2();
+            f2.idDeleted = idApps;
+            f2.ShowDialog();
+            this.Close();
+        }
+
+        private void back_Click(object sender, EventArgs e) => Close();
+
         private void applicantCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (applicantCategory.Text == "Юр.лицо" && !INN.Visible) applicantCategory_Visible();
@@ -448,18 +461,6 @@ namespace RTIPPO
 
                 helper.Process(items);
             }
-        }
-
-        private void delete_Click(object sender, EventArgs e)
-        {
-
-            List<int> idApps = new List<int>();
-            idApps.Add(application.Pets_Application_Id);
-
-            Form2 f2 = new Form2();
-            f2.idDeleted = idApps;
-            f2.ShowDialog();
-            this.Close();
         }
     }
 }
