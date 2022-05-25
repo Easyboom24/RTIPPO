@@ -23,10 +23,12 @@ namespace RTIPPO
             Dictionary<string, Tuple<string, string, int>> filters)
             => repository.GetAllApplications(countApplications,sorting,filters);
         
-        public void CreateApplication(Pets_Application application) => repository.CreateApplication(application);
-        
-        public void UpdateApplication(Pets_Application application) => repository.UpdateApplication(application);
-       
+        public void CreateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null) => 
+            repository.CreateApplication(application, applicant, animal, organization);
+
+        public void UpdateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null) =>
+            repository.UpdateApplication(application, applicant, animal, organization);
+
         public void DeleteApplications(List<int> applications) => repository.DeleteApplications(applications);
         
         public void ExportToExcel(Dictionary<string, string> sorting, Dictionary<string, Tuple<string, string, int>> filters)
@@ -66,10 +68,21 @@ namespace RTIPPO
 
         public User Authrization(BaseRepository repository, string login, string password) 
             => repository.Authrization(login, password);
-        
-        public void ExportToWord(Pets_Application application)
-        {
 
-        }
+        public List<Locality>? GetAllLocality() => repository.GetAllLocality();
+
+        public List<Status>? GetAllStatus() => repository.GetAllStatus();
+
+        public List<Urgency>? GetAllUrgency() => repository.GetAllUrgency();
+
+        public List<Animal_Category>? GetAllAnimal_Category() => repository.GetAllAnimal_Category();
+
+        public List<Animal_Wool>? GetAllAnimal_Wool() => repository.GetAllAnimal_Wool();
+
+        public List<Animal_Size>? GetAllAnimal_Size() =>repository.GetAllAnimal_Size();
+
+        public List<Animal_Sex>? GetAllAnimal_Sex() => repository.GetAllAnimal_Sex();
+
+        public List<Organization>? GetAllTrapOrg() => repository.GetAllTrapOrg();
     }
 }

@@ -25,7 +25,7 @@ namespace RTIPPO
         public Locality? Locality { get; set; }
 
         [ForeignKey("Organization")]
-        public int Organization_FK { get; set; }
+        public int? Organization_FK { get; set; }
         public Organization? Organization { get; set; }
 
         [ForeignKey("Status")]

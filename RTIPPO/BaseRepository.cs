@@ -72,21 +72,32 @@ namespace RTIPPO
         public Pets_Application? GetApplication(int idApplication)
             => Pets_Application?.Where(a => a.Pets_Application_Id == idApplication).ToList().First();
         
-
         public List<Pets_Application>? GetAllApplications(int countApplications, Dictionary<string,string> sorting, Dictionary<string, Tuple<string, string, int>> filters)
         {
             string query = Create_Query_String(sorting, filters);
             return this.Pets_Application?.FromSqlRaw(query).Take(countApplications).ToList();
         }
 
-        public void CreateApplication(Pets_Application application)
+        public void CreateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null)
         {
-           
+            //org
+
+
+            /////////
+            Applicant?.Add(applicant);
+
+            Animal?.Add(animal);
+            Pets_Application?.Add(application);
+            SaveChanges();
         }
 
-        public void UpdateApplication(Pets_Application application)
+        public void UpdateApplication(Pets_Application application, Applicant applicant, Animal animal, Organization organization = null)
         {
-
+            Organization?.Update(organization);
+            Applicant?.Update(applicant);
+            Animal?.Update(animal);
+            Pets_Application?.Update(application);
+            SaveChanges();
         }
 
         public void DeleteApplications(List<int> idApplications)
@@ -172,10 +183,60 @@ namespace RTIPPO
             return query;
         }
         
+        private string Create_Query_SubString(string from) => $"SELECT * FROM \"{from}\"";
+        
         public User Authrization(string login, string password)
         {
             User user = new User();
             return user;
+        }
+
+        public List<Locality>? GetAllLocality()
+        {
+            string query = Create_Query_SubString("Locality");
+            return this.Locality?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Status>? GetAllStatus()
+        {
+            string query = Create_Query_SubString("Status");
+            return this.Status?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Urgency>? GetAllUrgency()
+        {
+            string query = Create_Query_SubString("Urgency");
+            return this.Urgency?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Animal_Category>? GetAllAnimal_Category()
+        {
+            string query = Create_Query_SubString("Animal_Category");
+            return this.Animal_Category?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Animal_Wool>? GetAllAnimal_Wool()
+        {
+            string query = Create_Query_SubString("Animal_Wool");
+            return this.Animal_Wool?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Animal_Size>? GetAllAnimal_Size()
+        {
+            string query = Create_Query_SubString("Animal_Size");
+            return this.Animal_Size?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Animal_Sex>? GetAllAnimal_Sex()
+        {
+            string query = Create_Query_SubString("Animal_Sex");
+            return this.Animal_Sex?.FromSqlRaw(query).ToList();
+        }
+
+        public List<Organization>? GetAllTrapOrg()
+        {
+            string query = "SELECT * FROM \"Organization\" WHERE \"Type_FK\" = 4";
+            return this.Organization?.FromSqlRaw(query).ToList();
         }
     }
 }

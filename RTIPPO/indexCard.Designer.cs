@@ -41,7 +41,6 @@ namespace RTIPPO
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.habitat = new System.Windows.Forms.TextBox();
-            this.trappingOrg = new System.Windows.Forms.TextBox();
             this.status = new System.Windows.Forms.ComboBox();
             this.urgency = new System.Windows.Forms.ComboBox();
             this.applicantCategory = new System.Windows.Forms.ComboBox();
@@ -54,14 +53,13 @@ namespace RTIPPO
             this.regNum = new System.Windows.Forms.TextBox();
             this.form = new System.Windows.Forms.TabControl();
             this.applicant = new System.Windows.Forms.TabPage();
+            this.addressUr = new System.Windows.Forms.ComboBox();
             this.patDirector = new System.Windows.Forms.TextBox();
             this.firDirector = new System.Windows.Forms.TextBox();
             this.surDirector = new System.Windows.Forms.TextBox();
-            this.addressUr = new System.Windows.Forms.TextBox();
             this.INN = new System.Windows.Forms.MaskedTextBox();
             this.KPP = new System.Windows.Forms.MaskedTextBox();
             this.name = new System.Windows.Forms.TextBox();
-            this.emailUr = new System.Windows.Forms.TextBox();
             this.phoneUr = new System.Windows.Forms.MaskedTextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
@@ -71,7 +69,6 @@ namespace RTIPPO
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.patronymic = new System.Windows.Forms.TextBox();
             this.firstname = new System.Windows.Forms.TextBox();
             this.surname = new System.Windows.Forms.TextBox();
@@ -85,6 +82,7 @@ namespace RTIPPO
             this.label9 = new System.Windows.Forms.Label();
             this.email = new System.Windows.Forms.TextBox();
             this.order = new System.Windows.Forms.TabPage();
+            this.sizeAnimal = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.history_status_textbox = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -97,7 +95,6 @@ namespace RTIPPO
             this.label14 = new System.Windows.Forms.Label();
             this.sex = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.sizeAnimal = new System.Windows.Forms.TextBox();
             this.ears = new System.Windows.Forms.TextBox();
             this.reason = new System.Windows.Forms.TextBox();
             this.signs = new System.Windows.Forms.TextBox();
@@ -105,6 +102,8 @@ namespace RTIPPO
             this.color = new System.Windows.Forms.TextBox();
             this.category = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.createAp = new System.Windows.Forms.Button();
+            this.trappingOrg = new System.Windows.Forms.ComboBox();
             this.form.SuspendLayout();
             this.applicant.SuspendLayout();
             this.order.SuspendLayout();
@@ -138,6 +137,8 @@ namespace RTIPPO
             this.exportWord.TabIndex = 2;
             this.exportWord.Text = "Export в Word";
             this.exportWord.UseVisualStyleBackColor = true;
+            this.exportWord.Visible = false;
+            this.exportWord.Click += new System.EventHandler(this.exportWord_Click);
             // 
             // label1
             // 
@@ -209,7 +210,6 @@ namespace RTIPPO
             this.label7.Size = new System.Drawing.Size(132, 15);
             this.label7.TabIndex = 9;
             this.label7.Text = "Текущий статус заявки";
-            this.label7.Visible = false;
             // 
             // label8
             // 
@@ -220,26 +220,15 @@ namespace RTIPPO
             this.label8.Size = new System.Drawing.Size(134, 15);
             this.label8.TabIndex = 10;
             this.label8.Text = "Дата установки статуса";
-            this.label8.Visible = false;
             // 
             // habitat
             // 
+            this.habitat.Enabled = false;
             this.habitat.Location = new System.Drawing.Point(254, 72);
             this.habitat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.habitat.Name = "habitat";
             this.habitat.Size = new System.Drawing.Size(184, 23);
             this.habitat.TabIndex = 11;
-            // 
-            // trappingOrg
-            // 
-            this.trappingOrg.Enabled = false;
-            this.trappingOrg.Location = new System.Drawing.Point(568, 62);
-            this.trappingOrg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.trappingOrg.Name = "trappingOrg";
-            this.trappingOrg.Size = new System.Drawing.Size(184, 23);
-            this.trappingOrg.TabIndex = 12;
-            this.trappingOrg.Visible = false;
-            this.trappingOrg.TextChanged += new System.EventHandler(this.trappingOrg_TextChanged);
             // 
             // status
             // 
@@ -255,7 +244,6 @@ namespace RTIPPO
             this.status.Name = "status";
             this.status.Size = new System.Drawing.Size(140, 23);
             this.status.TabIndex = 13;
-            this.status.Visible = false;
             // 
             // urgency
             // 
@@ -275,17 +263,19 @@ namespace RTIPPO
             this.applicantCategory.Enabled = false;
             this.applicantCategory.FormattingEnabled = true;
             this.applicantCategory.Items.AddRange(new object[] {
-            "Физическое лицо",
-            "Юридическое лицо"});
+            "Физ.лицо",
+            "Юр.лицо"});
             this.applicantCategory.Location = new System.Drawing.Point(161, 3);
             this.applicantCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.applicantCategory.Name = "applicantCategory";
             this.applicantCategory.Size = new System.Drawing.Size(140, 23);
             this.applicantCategory.TabIndex = 15;
+            this.applicantCategory.SelectedIndexChanged += new System.EventHandler(this.applicantCategory_SelectedIndexChanged);
             // 
             // dateApplication
             // 
             this.dateApplication.Enabled = false;
+            this.dateApplication.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateApplication.Location = new System.Drawing.Point(173, 89);
             this.dateApplication.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.dateApplication.Name = "dateApplication";
@@ -300,7 +290,6 @@ namespace RTIPPO
             this.dateStatus.Name = "dateStatus";
             this.dateStatus.Size = new System.Drawing.Size(233, 23);
             this.dateStatus.TabIndex = 17;
-            this.dateStatus.Visible = false;
             // 
             // edit
             // 
@@ -311,6 +300,7 @@ namespace RTIPPO
             this.edit.TabIndex = 18;
             this.edit.Text = "Редактировать";
             this.edit.UseVisualStyleBackColor = true;
+            this.edit.Visible = false;
             this.edit.Click += new System.EventHandler(this.edit_Click);
             // 
             // delete
@@ -322,9 +312,11 @@ namespace RTIPPO
             this.delete.TabIndex = 19;
             this.delete.Text = "Удалить";
             this.delete.UseVisualStyleBackColor = true;
+            this.delete.Visible = false;
             // 
             // save
             // 
+            this.save.Enabled = false;
             this.save.Location = new System.Drawing.Point(778, 142);
             this.save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.save.Name = "save";
@@ -332,6 +324,7 @@ namespace RTIPPO
             this.save.TabIndex = 20;
             this.save.Text = "Сохранить";
             this.save.UseVisualStyleBackColor = true;
+            this.save.Visible = false;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
             // back
@@ -347,6 +340,7 @@ namespace RTIPPO
             // 
             // regNum
             // 
+            this.regNum.Enabled = false;
             this.regNum.Location = new System.Drawing.Point(173, 62);
             this.regNum.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.regNum.Name = "regNum";
@@ -366,14 +360,13 @@ namespace RTIPPO
             // 
             // applicant
             // 
+            this.applicant.Controls.Add(this.addressUr);
             this.applicant.Controls.Add(this.patDirector);
             this.applicant.Controls.Add(this.firDirector);
             this.applicant.Controls.Add(this.surDirector);
-            this.applicant.Controls.Add(this.addressUr);
             this.applicant.Controls.Add(this.INN);
             this.applicant.Controls.Add(this.KPP);
             this.applicant.Controls.Add(this.name);
-            this.applicant.Controls.Add(this.emailUr);
             this.applicant.Controls.Add(this.phoneUr);
             this.applicant.Controls.Add(this.label33);
             this.applicant.Controls.Add(this.label34);
@@ -383,7 +376,6 @@ namespace RTIPPO
             this.applicant.Controls.Add(this.label27);
             this.applicant.Controls.Add(this.label26);
             this.applicant.Controls.Add(this.label25);
-            this.applicant.Controls.Add(this.label24);
             this.applicant.Controls.Add(this.patronymic);
             this.applicant.Controls.Add(this.firstname);
             this.applicant.Controls.Add(this.surname);
@@ -407,80 +399,88 @@ namespace RTIPPO
             this.applicant.Text = "Заявитель";
             this.applicant.UseVisualStyleBackColor = true;
             // 
+            // addressUr
+            // 
+            this.addressUr.Enabled = false;
+            this.addressUr.FormattingEnabled = true;
+            this.addressUr.Location = new System.Drawing.Point(474, 145);
+            this.addressUr.Name = "addressUr";
+            this.addressUr.Size = new System.Drawing.Size(188, 23);
+            this.addressUr.TabIndex = 50;
+            this.addressUr.Visible = false;
+            // 
             // patDirector
             // 
+            this.patDirector.Enabled = false;
             this.patDirector.Location = new System.Drawing.Point(474, 222);
             this.patDirector.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.patDirector.Name = "patDirector";
             this.patDirector.Size = new System.Drawing.Size(188, 23);
             this.patDirector.TabIndex = 49;
+            this.patDirector.Visible = false;
             // 
             // firDirector
             // 
+            this.firDirector.Enabled = false;
             this.firDirector.Location = new System.Drawing.Point(474, 196);
             this.firDirector.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.firDirector.Name = "firDirector";
             this.firDirector.Size = new System.Drawing.Size(188, 23);
             this.firDirector.TabIndex = 48;
+            this.firDirector.Visible = false;
             // 
             // surDirector
             // 
+            this.surDirector.Enabled = false;
             this.surDirector.Location = new System.Drawing.Point(474, 170);
             this.surDirector.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.surDirector.Name = "surDirector";
             this.surDirector.Size = new System.Drawing.Size(188, 23);
             this.surDirector.TabIndex = 47;
-            // 
-            // addressUr
-            // 
-            this.addressUr.Location = new System.Drawing.Point(474, 144);
-            this.addressUr.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.addressUr.Name = "addressUr";
-            this.addressUr.Size = new System.Drawing.Size(188, 23);
-            this.addressUr.TabIndex = 46;
+            this.surDirector.Visible = false;
             // 
             // INN
             // 
+            this.INN.Enabled = false;
             this.INN.Location = new System.Drawing.Point(113, 144);
             this.INN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.INN.Mask = "0000000000";
             this.INN.Name = "INN";
             this.INN.Size = new System.Drawing.Size(116, 23);
             this.INN.TabIndex = 45;
+            this.INN.Visible = false;
             // 
             // KPP
             // 
+            this.KPP.Enabled = false;
             this.KPP.Location = new System.Drawing.Point(113, 170);
             this.KPP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.KPP.Mask = "000000000";
             this.KPP.Name = "KPP";
             this.KPP.Size = new System.Drawing.Size(116, 23);
             this.KPP.TabIndex = 44;
+            this.KPP.Visible = false;
             // 
             // name
             // 
+            this.name.Enabled = false;
             this.name.Location = new System.Drawing.Point(113, 196);
             this.name.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.name.Name = "name";
             this.name.Size = new System.Drawing.Size(188, 23);
             this.name.TabIndex = 43;
-            // 
-            // emailUr
-            // 
-            this.emailUr.Location = new System.Drawing.Point(113, 246);
-            this.emailUr.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.emailUr.Name = "emailUr";
-            this.emailUr.Size = new System.Drawing.Size(188, 23);
-            this.emailUr.TabIndex = 42;
+            this.name.Visible = false;
             // 
             // phoneUr
             // 
+            this.phoneUr.Enabled = false;
             this.phoneUr.Location = new System.Drawing.Point(113, 222);
             this.phoneUr.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.phoneUr.Mask = "8 (999) 000-0000";
             this.phoneUr.Name = "phoneUr";
             this.phoneUr.Size = new System.Drawing.Size(116, 23);
             this.phoneUr.TabIndex = 41;
+            this.phoneUr.Visible = false;
             // 
             // label33
             // 
@@ -491,6 +491,7 @@ namespace RTIPPO
             this.label33.Size = new System.Drawing.Size(110, 15);
             this.label33.TabIndex = 40;
             this.label33.Text = "Имя руководителя";
+            this.label33.Visible = false;
             // 
             // label34
             // 
@@ -501,6 +502,7 @@ namespace RTIPPO
             this.label34.Size = new System.Drawing.Size(137, 15);
             this.label34.TabIndex = 39;
             this.label34.Text = "Фамилия руководителя";
+            this.label34.Visible = false;
             // 
             // label35
             // 
@@ -511,6 +513,7 @@ namespace RTIPPO
             this.label35.Size = new System.Drawing.Size(40, 15);
             this.label35.TabIndex = 38;
             this.label35.Text = "Адрес";
+            this.label35.Visible = false;
             // 
             // label36
             // 
@@ -521,6 +524,7 @@ namespace RTIPPO
             this.label36.Size = new System.Drawing.Size(137, 15);
             this.label36.TabIndex = 37;
             this.label36.Text = "Отчество руководителя";
+            this.label36.Visible = false;
             // 
             // label28
             // 
@@ -531,16 +535,19 @@ namespace RTIPPO
             this.label28.Size = new System.Drawing.Size(55, 15);
             this.label28.TabIndex = 32;
             this.label28.Text = "Телефон";
+            this.label28.Visible = false;
             // 
             // label27
             // 
             this.label27.AutoSize = true;
+            this.label27.Enabled = false;
             this.label27.Location = new System.Drawing.Point(7, 200);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(95, 15);
             this.label27.TabIndex = 31;
             this.label27.Text = "Наименование*";
+            this.label27.Visible = false;
             // 
             // label26
             // 
@@ -551,6 +558,7 @@ namespace RTIPPO
             this.label26.Size = new System.Drawing.Size(37, 15);
             this.label26.TabIndex = 30;
             this.label26.Text = "КПП*";
+            this.label26.Visible = false;
             // 
             // label25
             // 
@@ -561,19 +569,11 @@ namespace RTIPPO
             this.label25.Size = new System.Drawing.Size(39, 15);
             this.label25.TabIndex = 29;
             this.label25.Text = "ИНН*";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(7, 249);
-            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(36, 15);
-            this.label24.TabIndex = 28;
-            this.label24.Text = "Email";
+            this.label25.Visible = false;
             // 
             // patronymic
             // 
+            this.patronymic.Enabled = false;
             this.patronymic.Location = new System.Drawing.Point(113, 95);
             this.patronymic.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.patronymic.Name = "patronymic";
@@ -582,6 +582,7 @@ namespace RTIPPO
             // 
             // firstname
             // 
+            this.firstname.Enabled = false;
             this.firstname.Location = new System.Drawing.Point(113, 68);
             this.firstname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.firstname.Name = "firstname";
@@ -590,6 +591,7 @@ namespace RTIPPO
             // 
             // surname
             // 
+            this.surname.Enabled = false;
             this.surname.Location = new System.Drawing.Point(113, 42);
             this.surname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.surname.Name = "surname";
@@ -628,6 +630,7 @@ namespace RTIPPO
             // 
             // address
             // 
+            this.address.Enabled = false;
             this.address.Location = new System.Drawing.Point(474, 95);
             this.address.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.address.Name = "address";
@@ -656,6 +659,7 @@ namespace RTIPPO
             // 
             // phone
             // 
+            this.phone.Enabled = false;
             this.phone.Location = new System.Drawing.Point(474, 42);
             this.phone.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.phone.Mask = "8 (999) 000-0000";
@@ -675,6 +679,7 @@ namespace RTIPPO
             // 
             // email
             // 
+            this.email.Enabled = false;
             this.email.Location = new System.Drawing.Point(474, 68);
             this.email.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.email.Name = "email";
@@ -683,6 +688,7 @@ namespace RTIPPO
             // 
             // order
             // 
+            this.order.Controls.Add(this.sizeAnimal);
             this.order.Controls.Add(this.label29);
             this.order.Controls.Add(this.history_status_textbox);
             this.order.Controls.Add(this.label20);
@@ -695,7 +701,6 @@ namespace RTIPPO
             this.order.Controls.Add(this.label14);
             this.order.Controls.Add(this.sex);
             this.order.Controls.Add(this.label13);
-            this.order.Controls.Add(this.sizeAnimal);
             this.order.Controls.Add(this.ears);
             this.order.Controls.Add(this.reason);
             this.order.Controls.Add(this.signs);
@@ -717,6 +722,15 @@ namespace RTIPPO
             this.order.TabIndex = 1;
             this.order.Text = "Заявка";
             this.order.UseVisualStyleBackColor = true;
+            // 
+            // sizeAnimal
+            // 
+            this.sizeAnimal.Enabled = false;
+            this.sizeAnimal.FormattingEnabled = true;
+            this.sizeAnimal.Location = new System.Drawing.Point(252, 114);
+            this.sizeAnimal.Name = "sizeAnimal";
+            this.sizeAnimal.Size = new System.Drawing.Size(186, 23);
+            this.sizeAnimal.TabIndex = 36;
             // 
             // label29
             // 
@@ -790,6 +804,7 @@ namespace RTIPPO
             // 
             // wool
             // 
+            this.wool.Enabled = false;
             this.wool.FormattingEnabled = true;
             this.wool.Items.AddRange(new object[] {
             "Коротка",
@@ -823,10 +838,8 @@ namespace RTIPPO
             // 
             // sex
             // 
+            this.sex.Enabled = false;
             this.sex.FormattingEnabled = true;
-            this.sex.Items.AddRange(new object[] {
-            "М",
-            "Ж"});
             this.sex.Location = new System.Drawing.Point(59, 108);
             this.sex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.sex.Name = "sex";
@@ -843,16 +856,9 @@ namespace RTIPPO
             this.label13.TabIndex = 24;
             this.label13.Text = "Пол";
             // 
-            // sizeAnimal
-            // 
-            this.sizeAnimal.Location = new System.Drawing.Point(254, 108);
-            this.sizeAnimal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.sizeAnimal.Name = "sizeAnimal";
-            this.sizeAnimal.Size = new System.Drawing.Size(184, 23);
-            this.sizeAnimal.TabIndex = 23;
-            // 
             // ears
             // 
+            this.ears.Enabled = false;
             this.ears.Location = new System.Drawing.Point(59, 182);
             this.ears.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ears.Name = "ears";
@@ -861,6 +867,7 @@ namespace RTIPPO
             // 
             // reason
             // 
+            this.reason.Enabled = false;
             this.reason.Location = new System.Drawing.Point(465, 72);
             this.reason.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.reason.Name = "reason";
@@ -869,6 +876,7 @@ namespace RTIPPO
             // 
             // signs
             // 
+            this.signs.Enabled = false;
             this.signs.Location = new System.Drawing.Point(125, 231);
             this.signs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.signs.Name = "signs";
@@ -877,6 +885,7 @@ namespace RTIPPO
             // 
             // tail
             // 
+            this.tail.Enabled = false;
             this.tail.Location = new System.Drawing.Point(254, 182);
             this.tail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.tail.Name = "tail";
@@ -885,6 +894,7 @@ namespace RTIPPO
             // 
             // color
             // 
+            this.color.Enabled = false;
             this.color.Location = new System.Drawing.Point(254, 145);
             this.color.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.color.Name = "color";
@@ -893,6 +903,7 @@ namespace RTIPPO
             // 
             // category
             // 
+            this.category.Enabled = false;
             this.category.FormattingEnabled = true;
             this.category.Items.AddRange(new object[] {
             "Собака",
@@ -913,18 +924,39 @@ namespace RTIPPO
             this.label12.TabIndex = 15;
             this.label12.Text = "Категория животного";
             // 
+            // createAp
+            // 
+            this.createAp.Location = new System.Drawing.Point(779, 399);
+            this.createAp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.createAp.Name = "createAp";
+            this.createAp.Size = new System.Drawing.Size(141, 39);
+            this.createAp.TabIndex = 24;
+            this.createAp.Text = "Отправить заявку";
+            this.createAp.UseVisualStyleBackColor = true;
+            this.createAp.Click += new System.EventHandler(this.createAp_Click);
+            // 
+            // trappingOrg
+            // 
+            this.trappingOrg.Enabled = false;
+            this.trappingOrg.FormattingEnabled = true;
+            this.trappingOrg.Location = new System.Drawing.Point(524, 62);
+            this.trappingOrg.Name = "trappingOrg";
+            this.trappingOrg.Size = new System.Drawing.Size(160, 23);
+            this.trappingOrg.TabIndex = 25;
+            // 
             // indexCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 519);
+            this.Controls.Add(this.trappingOrg);
+            this.Controls.Add(this.createAp);
             this.Controls.Add(this.form);
             this.Controls.Add(this.regNum);
             this.Controls.Add(this.back);
             this.Controls.Add(this.save);
             this.Controls.Add(this.delete);
             this.Controls.Add(this.edit);
-            this.Controls.Add(this.trappingOrg);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dateStatus);
             this.Controls.Add(this.dateApplication);
@@ -962,7 +994,6 @@ namespace RTIPPO
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox habitat;
-        private System.Windows.Forms.TextBox trappingOrg;
         private System.Windows.Forms.ComboBox status;
         private System.Windows.Forms.ComboBox urgency;
         private System.Windows.Forms.ComboBox applicantCategory;
@@ -998,7 +1029,6 @@ namespace RTIPPO
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox sex;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox sizeAnimal;
         private System.Windows.Forms.TextBox ears;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
@@ -1008,7 +1038,7 @@ namespace RTIPPO
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
+        //private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox patronymic;
         private System.Windows.Forms.TextBox firstname;
         private System.Windows.Forms.TextBox surname;
@@ -1018,13 +1048,16 @@ namespace RTIPPO
         private System.Windows.Forms.MaskedTextBox INN;
         private System.Windows.Forms.MaskedTextBox KPP;
         private System.Windows.Forms.TextBox name;
-        private System.Windows.Forms.TextBox emailUr;
+        //private System.Windows.Forms.TextBox emailUr;
         private System.Windows.Forms.MaskedTextBox phoneUr;
         private System.Windows.Forms.TextBox patDirector;
         private System.Windows.Forms.TextBox firDirector;
         private System.Windows.Forms.TextBox surDirector;
-        private System.Windows.Forms.TextBox addressUr;
         private Label label29;
         private TextBox history_status_textbox;
+        private Button createAp;
+        private ComboBox addressUr;
+        private ComboBox sizeAnimal;
+        private ComboBox trappingOrg;
     }
 }
