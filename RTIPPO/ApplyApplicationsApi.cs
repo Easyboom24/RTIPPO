@@ -27,8 +27,8 @@ namespace RTIPPO
         public void CreateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application) => 
             repository.CreateApplication(organization, applicant, animal, application);
 
-        public void UpdateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application) =>
-            repository.UpdateApplication(organization, applicant, animal, application);
+        public void UpdateApplication(Organization? organization, Applicant? applicant, Animal animal, Pets_Application application, Status_History? status_History) =>
+            repository.UpdateApplication(organization, applicant, animal, application, status_History);
 
         public void DeleteApplications(List<int> applications) => repository.DeleteApplications(applications);
         

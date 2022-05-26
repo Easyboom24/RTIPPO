@@ -91,14 +91,22 @@ namespace RTIPPO
             SaveChanges();
         }
 
-        public void UpdateApplication(Organization? org, Applicant? applicant, Animal animal, Pets_Application application)
+        public void UpdateApplication(Organization? org, Applicant? applicant, Animal animal, Pets_Application application, Status_History? status_History)
         {
-            //if (application != null) Pets_Application?.Update(application);
-
             if (org != null) Organization?.Update(org); 
             if (applicant != null) Applicant?.Update(applicant);
             if (animal != null) Animal?.Update(animal);
-            SaveChanges();
+
+            var local = this.Set<Pets_Application>().Local.FirstOrDefault(entry => entry.Pets_Application_Id.Equals(application.Pets_Application_Id));
+
+            if (status_History != null) Status_History?.Add(status_History);
+
+            if (local != null) this.Entry(local).State = EntityState.Detached; // detach
+            
+            this.Entry(application).State = EntityState.Modified;
+            this.Entry(application).Property(c => c.Application_Number).IsModified = true;
+
+            this.SaveChanges();
         }
 
         public User? Authrization(string login, string password) => (User?.Where(a => a.Login == login && a.Password == password).ToList().Count != 0) ?

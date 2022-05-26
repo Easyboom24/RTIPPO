@@ -123,7 +123,8 @@ namespace RTIPPO
             id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
             indexCard f2 = new indexCard();
             f2.application = Api.GetApplication(id);
-            f2.user = user;
+            f2.user = this.user;
+            f2.enableBool = false;
             f2.ShowDialog();
         }
 
@@ -204,12 +205,19 @@ namespace RTIPPO
         private void button1_Click(object sender, EventArgs e)
         {
             indexCard f2 = new indexCard();
+            f2.enableBool = true;
             f2.ShowDialog();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void reload_Click(object sender, EventArgs e)
+        {
+            Api = new ApplyApplicationsApi();
+            Form1_Load( sender,  e);
         }
     } 
 }   

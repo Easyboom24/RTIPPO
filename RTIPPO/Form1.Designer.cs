@@ -50,6 +50,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.reload = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -248,11 +249,22 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // reload
+            // 
+            this.reload.Location = new System.Drawing.Point(975, 486);
+            this.reload.Name = "reload";
+            this.reload.Size = new System.Drawing.Size(75, 23);
+            this.reload.TabIndex = 8;
+            this.reload.Text = "Обновить";
+            this.reload.UseVisualStyleBackColor = true;
+            this.reload.Click += new System.EventHandler(this.reload_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1062, 519);
+            this.Controls.Add(this.reload);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -293,6 +305,7 @@
         private DataGridViewTextBoxColumn Organization_FK;
         private DataGridViewTextBoxColumn Status_FK;
         private DataGridViewTextBoxColumn Status_Date;
+        private Button reload;
     }
 }
 

@@ -16,54 +16,116 @@ namespace RTIPPO
         ApplyApplicationsApi Api = new ApplyApplicationsApi();
         internal Pets_Application application;
         internal User? user;
+        private Status_History? status_History = new Status_History();
+        public bool enableBool;
 
         public indexCard()
         {
             InitializeComponent();
         }
+        private void indexCard_Load(object sender, EventArgs e)
+        {
+            inverse_enable();
+            fill_combobox();
+
+            if (applicantCategory.Text == "Юр.лицо" && !INN.Visible) applicantCategory_Visible();
+
+            if (application != null)
+            {
+                edit_Visible();
+
+                regNum.Text = application.Application_Number.ToString();
+                dateApplication.Value = application.Filling_Date.ToDateTime(new TimeOnly(0));
+                trappingOrg.Text = application?.Organization?.Organization_Name ?? "";
+                status.Text = application?.Status?.Status_Name ?? "";
+                dateStatus.Value = application.Status_Date.ToDateTime(new TimeOnly(0));
+                place.Text = application?.Locality?.Locality_Name ?? "";
+
+                habitat.Text = application?.Animal?.Habitat ?? "";
+                category.Text = application?.Animal?.Animal_Category?.Category_Name ?? "";
+                wool.Text = application?.Animal?.Animal_Wool?.Wool_Name ?? "";
+                ears.Text = application?.Animal?.Ears ?? "";
+                sizeAnimal.Text = application?.Animal?.Animal_Size?.Size_Name ?? "";
+                color.Text = application?.Animal?.Color ?? "";
+                tail.Text = application?.Animal?.Tail ?? "";
+                signs.Text = application?.Animal?.Signs ?? "";
+                urgency.Text = application?.Urgency?.Urgency_Name ?? "";
+                reason.Text = application?.Reason ?? "";
+                sex.Text = application?.Animal?.Animal_Sex?.Sex_Name ?? "";
+
+                if (application?.Status_History != null)
+                    foreach (var status in application?.Status_History)
+                        history_status_textbox.Text += status.Status.Status_Name + "-" + status.Current_Date_Status + Environment.NewLine;
+
+                history_status_textbox.ReadOnly = true;
+
+                surname.Text = application?.Applicant?.Applicant_Surname ?? "";
+                firstname.Text = application?.Applicant?.Applicant_Firstname ?? "";
+                patronymic.Text = application?.Applicant?.Applicant_Patronymic ?? "";
+                phone.Text = application?.Applicant?.Applicant_Phone ?? "";
+                email.Text = application?.Applicant?.Applicant_Email ?? "";
+                address.Text = application?.Applicant?.Applicant_Address ?? "";
+
+                applicantCategory.Text = application?.Applicant?.Organization?.Type_Enterprise.Type_Enterprise_Name ?? "Физ. лицо";
+
+                INN.Text = application?.Applicant?.Organization?.INN ?? "";
+                KPP.Text = application?.Applicant?.Organization?.KPP ?? "";
+                name.Text = application?.Applicant?.Organization?.Organization_Name ?? "";
+                phoneUr.Text = application?.Applicant?.Organization?.Phone ?? "";
+                addressUr.Text = application?.Applicant?.Organization?.Address ?? "";
+                surDirector.Text = application?.Applicant?.Organization?.Surname_Director ?? "";
+                firDirector.Text = application?.Applicant?.Organization?.Firstname_Director ?? "";
+                patDirector.Text = application?.Applicant?.Organization?.Patronymic_Director ?? "";
+            }
+
+            if (user != null && user.Role_FK != 7)
+            {
+                edit_Visible();
+                createAp.Visible = false;
+                exportWord.Visible = true;
+            }
+        }
 
         private void inverse_enable()
         {
-            dateApplication.Enabled = !dateApplication.Enabled;
-            applicantCategory.Enabled = !applicantCategory.Enabled;
-            place.Enabled = !place.Enabled;
-            trappingOrg.Enabled = !trappingOrg.Enabled;
-            status.Enabled = !status.Enabled;
-            dateStatus.Enabled = !dateStatus.Enabled;
-            regNum.Enabled = !regNum.Enabled;
-            surname.Enabled = !surname.Enabled;
-            firstname.Enabled = !firstname.Enabled;
-            patronymic.Enabled = !patronymic.Enabled;
-            phone.Enabled = !phone.Enabled;
-            email.Enabled = !email.Enabled;
-            address.Enabled = !address.Enabled;
+            applicantCategory.Enabled = enableBool;
+            place.ReadOnly = !enableBool;
+            trappingOrg.Enabled = enableBool;
+            status.Enabled = enableBool;
+            regNum.ReadOnly = !enableBool;
+            surname.ReadOnly = !enableBool;
+            firstname.ReadOnly = !enableBool;
+            patronymic.ReadOnly = !enableBool;
+            phone.ReadOnly = !enableBool;
+            email.ReadOnly = !enableBool;
+            address.ReadOnly = !enableBool;
 
-            habitat.Enabled = !habitat.Enabled;
-            category.Enabled = !category.Enabled;
-            wool.Enabled = !wool.Enabled;
-            urgency.Enabled = !urgency.Enabled;
-            sex.Enabled = !sex.Enabled;
-            ears.Enabled = !ears.Enabled;
-            signs.Enabled = !signs.Enabled;
-            reason.Enabled = !reason.Enabled;
-            tail.Enabled = !tail.Enabled;
-            color.Enabled = !color.Enabled;
-            sizeAnimal.Enabled = !sizeAnimal.Enabled;
+            habitat.ReadOnly = !enableBool;
+            category.Enabled = enableBool;
+            wool.Enabled = enableBool;
+            urgency.Enabled = enableBool;
+            sex.Enabled = enableBool;
+            ears.ReadOnly = !enableBool;
+            signs.ReadOnly = !enableBool;
+            reason.ReadOnly = !enableBool;
+            tail.ReadOnly = !enableBool;
+            color.ReadOnly = !enableBool;
+            sizeAnimal.Enabled = enableBool;
 
 
-            exportWord.Enabled = !exportWord.Enabled;
-            delete.Enabled = !delete.Enabled;
-            edit.Enabled = !edit.Enabled;
-            save.Enabled = !save.Enabled;
+            exportWord.Enabled = !enableBool;
+            delete.Enabled = !enableBool;
+            edit.Enabled = !enableBool;
+            save.Enabled = enableBool;
 
-            INN.Enabled = !INN.Enabled;
-            KPP.Enabled = !KPP.Enabled;
-            name.Enabled = !name.Enabled;
-            phoneUr.Enabled = !phoneUr.Enabled;
-            addressUr.Enabled = !addressUr.Enabled;
-            surDirector.Enabled = !surDirector.Enabled;
-            firDirector.Enabled = !firDirector.Enabled;
-            patDirector.Enabled = !patDirector.Enabled;
+            INN.ReadOnly = !enableBool;
+            KPP.ReadOnly = !enableBool;
+            name.ReadOnly = !enableBool;
+            phoneUr.ReadOnly = !enableBool;
+            addressUr.Enabled = enableBool;
+            surDirector.ReadOnly = !enableBool;
+            firDirector.ReadOnly = !enableBool;
+            patDirector.ReadOnly = !enableBool;
         }
 
         private void fill_combobox()
@@ -149,105 +211,10 @@ namespace RTIPPO
             trappingOrg.ValueMember = "Key";
         }
 
-        private void indexCard_Load(object sender, EventArgs e)
-        {
-            fill_combobox();
-
-            if (application == null) inverse_enable();
-
-            if (applicantCategory.Text == "Юр.лицо" && !INN.Visible) applicantCategory_Visible();
-
-            if (application != null)
-            {
-                edit_Visible();
-
-                regNum.Text =  application.Application_Number.ToString();
-                regNum.ReadOnly = true;
-                dateApplication.Value =  application.Filling_Date.ToDateTime(new TimeOnly(0));
-                dateApplication.Enabled = false;
-                trappingOrg.Text = application?.Organization?.Organization_Name ?? "";
-                trappingOrg.Enabled = false;
-                status.Text = application?.Status?.Status_Name ?? "";
-                status.Enabled = false;
-                dateStatus.Value = application.Status_Date.ToDateTime(new TimeOnly(0));
-                dateStatus.Enabled = false;
-                place.Text = application?.Locality?.Locality_Name ?? "";
-                place.ReadOnly = true;
-            
-                habitat.Text = application?.Animal?.Habitat ?? "";
-                habitat.ReadOnly = true;
-                category.Text = application?.Animal?.Animal_Category?.Category_Name ?? "";
-                category.Enabled = false;
-                wool.Text = application?.Animal?.Animal_Wool?.Wool_Name ?? "";
-                wool.Enabled = false;
-                ears.Text = application?.Animal?.Ears ?? "";
-                ears.ReadOnly = true;
-                sizeAnimal.Text = application?.Animal?.Animal_Size?.Size_Name ?? "";
-                sizeAnimal.Enabled = false;
-                color.Text = application?.Animal?.Color ?? "";
-                color.ReadOnly = true;
-                tail.Text = application?.Animal?.Tail ?? "";
-                tail.ReadOnly = true;
-                signs.Text = application?.Animal?.Signs ?? "";
-                signs.ReadOnly = true;
-                urgency.Text = application?.Urgency?.Urgency_Name ?? "";
-                urgency.Enabled = false;
-                reason.Text = application?.Reason ?? "";
-                reason.ReadOnly = true;
-                sex.Text = application?.Animal?.Animal_Sex?.Sex_Name ?? "";
-                sex.Enabled = false;
-
-                if(application?.Status_History!= null)
-                    foreach (var status in application?.Status_History)
-                        history_status_textbox.Text += status.Status.Status_Name+ "-" + status.Current_Date_Status + Environment.NewLine;
-
-                history_status_textbox.ReadOnly = true;
-
-                surname.Text = application?.Applicant?.Applicant_Surname ?? "";
-                surname.ReadOnly = true;
-                firstname.Text = application?.Applicant?.Applicant_Firstname ?? "";
-                firstname.ReadOnly = true;
-                patronymic.Text = application?.Applicant?.Applicant_Patronymic ?? "";
-                patronymic.ReadOnly = true;
-                phone.Text = application?.Applicant?.Applicant_Phone ?? "";
-                phone.ReadOnly = true;
-                email.Text = application?.Applicant?.Applicant_Email ?? "";
-                email.ReadOnly = true;
-                address.Text = application?.Applicant?.Applicant_Address ?? "";
-                address.ReadOnly = true;
-
-                applicantCategory.Text = application?.Applicant?.Organization?.Type_Enterprise.Type_Enterprise_Name ?? "Физ. лицо";
-                applicantCategory.Enabled = false;
-
-                INN.Text = application?.Applicant?.Organization?.INN ?? "";
-                INN.ReadOnly = true;
-                KPP.Text = application?.Applicant?.Organization?.KPP ?? "";
-                KPP.ReadOnly = true;
-                name.Text = application?.Applicant?.Organization?.Organization_Name ?? "";
-                name.ReadOnly = true;
-                phoneUr.Text = application?.Applicant?.Organization?.Phone ?? "";
-                phoneUr.ReadOnly = true;
-                addressUr.Text = application?.Applicant?.Organization?.Address ?? "";
-                addressUr.Enabled = false;
-                surDirector.Text = application?.Applicant?.Organization?.Surname_Director ?? "";
-                surDirector.ReadOnly = true;
-                firDirector.Text = application?.Applicant?.Organization?.Firstname_Director ?? "";
-                firDirector.ReadOnly = true;
-                patDirector.Text = application?.Applicant?.Organization?.Patronymic_Director ?? "";
-                patDirector.ReadOnly = true;
-            }
-
-            if (user != null && user.Role_FK != 7)
-            {
-                edit_Visible();
-                createAp.Visible = false;
-                exportWord.Visible = true;
-            }
-        }
-
 
         private void save_Click(object sender, EventArgs e)
         {
+            enableBool = false;
             inverse_enable();
 
             Applicant? applicant = Api.GetApplicant(phone.Text, email.Text, application.Applicant_FK);
@@ -302,7 +269,7 @@ namespace RTIPPO
 
             if (application != null)
             {
-                Api.UpdateApplication(organization, applicant, animal, application);
+                Api.UpdateApplication(organization, applicant, animal, application, status_History);
                 MessageBox.Show($"Данные обновлены");
                 this.Close();
             }
@@ -310,9 +277,9 @@ namespace RTIPPO
 
         private void edit_Click(object sender, EventArgs e)
         {
+            enableBool = true;
             inverse_enable();
         }
-
         private void createAp_Click(object sender, EventArgs e)
         {
             int? idOrg = (Api.GetOrganization(INN.Text) != null)? Api.GetOrganization(INN.Text).Organization_Id: null;
@@ -398,6 +365,7 @@ namespace RTIPPO
 
         private void back_Click(object sender, EventArgs e) => Close();
 
+
         private void applicantCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (applicantCategory.Text == "Юр.лицо" && !INN.Visible) applicantCategory_Visible();
@@ -434,6 +402,7 @@ namespace RTIPPO
             createAp.Visible = !createAp.Visible;
         }
 
+
         private void exportWord_Click(object sender, EventArgs e)
         {
             if (applicant != null)
@@ -461,6 +430,17 @@ namespace RTIPPO
 
                 helper.Process(items);
             }
+        }
+
+        private void status_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dateStatus.Value = DateTime.Now;
+            if (status.Text != null && application != null)
+            {
+                status_History.Status_Id = ((KeyValuePair<int, string>)status.SelectedItem).Key;
+                status_History.Pets_Application_Id = application.Pets_Application_Id;
+                status_History.Current_Date_Status = DateOnly.FromDateTime(dateStatus.Value);
+            };
         }
     }
 }
