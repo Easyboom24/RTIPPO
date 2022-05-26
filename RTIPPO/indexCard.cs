@@ -214,65 +214,70 @@ namespace RTIPPO
 
         private void save_Click(object sender, EventArgs e)
         {
-            enableBool = false;
-            inverse_enable();
-
-            Applicant? applicant = Api.GetApplicant(phone.Text, email.Text, application.Applicant_FK);
-            if (applicant != null)
+            try
             {
-                applicant.Applicant_Phone = phone.Text;
-                applicant.Applicant_Email = email.Text;
-                applicant.Applicant_Surname = surname.Text;
-                applicant.Applicant_Firstname = firstname.Text;
-                applicant.Applicant_Patronymic = patronymic.Text ?? null;
-                applicant.Applicant_Address = address.Text ?? null;
-            };
+                enableBool = false;
+                inverse_enable();
 
-            Animal animal = Api.GetAnimal(application.Animal_FK);
+                Applicant? applicant = Api.GetApplicant(phone.Text, email.Text, application.Applicant_FK);
+                if (applicant != null)
+                {
+                    applicant.Applicant_Phone = phone.Text;
+                    applicant.Applicant_Email = email.Text;
+                    applicant.Applicant_Surname = surname.Text;
+                    applicant.Applicant_Firstname = firstname.Text;
+                    applicant.Applicant_Patronymic = patronymic.Text ?? null;
+                    applicant.Applicant_Address = address.Text ?? null;
+                };
 
-            if (animal != null)
-            {
-                animal.Sex_FK = ((KeyValuePair<int, string>)sex.SelectedItem).Key;
-                animal.Size_FK = ((KeyValuePair<int, string>)sizeAnimal.SelectedItem).Key;
-                animal.Wool_FK = ((KeyValuePair<int, string>)wool.SelectedItem).Key;
-                animal.Color = color.Text;
-                animal.Ears = ears.Text;
-                animal.Tail = tail.Text;
-                animal.Habitat = habitat.Text;
-                animal.Signs = signs.Text;
-                animal.Category_FK = ((KeyValuePair<int, string>)category.SelectedItem).Key;
-            };
+                Animal animal = Api.GetAnimal(application.Animal_FK);
 
-            Organization? organization = (INN.Text != null) ? Api.GetOrganization(INN.Text, applicant.Applicant_Organization_FK) : null;
-            if (organization != null)
-            {
-                organization.INN = INN.Text;
-                organization.KPP = KPP.Text;
-                organization.Organization_Name = name.Text;
-                organization.Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null;
-                organization.Phone = phoneUr.Text ?? null;
-                organization.Surname_Director = surDirector.Text ?? null;
-                organization.Firstname_Director = firDirector.Text ?? null;
-                organization.Patronymic_Director = patDirector.Text ?? null;
-                organization.Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key;
+                if (animal != null)
+                {
+                    animal.Sex_FK = ((KeyValuePair<int, string>)sex.SelectedItem).Key;
+                    animal.Size_FK = ((KeyValuePair<int, string>)sizeAnimal.SelectedItem).Key;
+                    animal.Wool_FK = ((KeyValuePair<int, string>)wool.SelectedItem).Key;
+                    animal.Color = color.Text;
+                    animal.Ears = ears.Text;
+                    animal.Tail = tail.Text;
+                    animal.Habitat = habitat.Text;
+                    animal.Signs = signs.Text;
+                    animal.Category_FK = ((KeyValuePair<int, string>)category.SelectedItem).Key;
+                };
+
+                Organization? organization = (INN.Text != null) ? Api.GetOrganization(INN.Text, applicant.Applicant_Organization_FK) : null;
+                if (organization != null)
+                {
+                    organization.INN = INN.Text;
+                    organization.KPP = KPP.Text;
+                    organization.Organization_Name = name.Text;
+                    organization.Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null;
+                    organization.Phone = phoneUr.Text ?? null;
+                    organization.Surname_Director = surDirector.Text ?? null;
+                    organization.Firstname_Director = firDirector.Text ?? null;
+                    organization.Patronymic_Director = patDirector.Text ?? null;
+                    organization.Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key;
+                }
+
+                if (application != null)
+                {
+                    application.Application_Number = int.Parse(regNum.Text);
+                    application.Organization_FK = ((KeyValuePair<int, string>)trappingOrg.SelectedItem).Key;
+                    application.Status_FK = ((KeyValuePair<int, string>)status.SelectedItem).Key;
+                    application.Status_Date = DateOnly.FromDateTime(dateStatus.Value);
+                    application.Urgency_FK = ((KeyValuePair<int, string>)urgency.SelectedItem).Key;
+                    application.Reason = reason.Text;
+                };
+
+                if (application != null)
+                {
+                    Api.UpdateApplication(organization, applicant, animal, application, status_History);
+                    MessageBox.Show($"Данные обновлены");
+                    this.Close();
+                }
+
             }
-
-            if (application!= null)
-            {
-                application.Application_Number = int.Parse(regNum.Text);
-                application.Organization_FK = ((KeyValuePair<int, string>)trappingOrg.SelectedItem).Key;
-                application.Status_FK = ((KeyValuePair<int, string>)status.SelectedItem).Key;
-                application.Status_Date = DateOnly.FromDateTime(dateStatus.Value);
-                application.Urgency_FK = ((KeyValuePair<int, string>)urgency.SelectedItem).Key;
-                application.Reason = reason.Text;
-            };
-
-            if (application != null)
-            {
-                Api.UpdateApplication(organization, applicant, animal, application, status_History);
-                MessageBox.Show($"Данные обновлены");
-                this.Close();
-            }
+            catch { MessageBox.Show("Проверьте данные"); }
         }
 
         private void edit_Click(object sender, EventArgs e)
@@ -282,73 +287,78 @@ namespace RTIPPO
         }
         private void createAp_Click(object sender, EventArgs e)
         {
-            int? idOrg = (Api.GetOrganization(INN.Text) != null)? Api.GetOrganization(INN.Text).Organization_Id: null;
-            int idAnimal = Api.GetLastAnimal() + 1;
-
-            var idApp = Api.GetApplicant(phone.Text, email.Text);
-            int idApplicant = (idApp != null)? idApp.Applicant_Id: Api.GetLastApplicant() + 1;
-
-            Organization? organization = (idOrg != null)? null:
-                new Organization
+            try
             {
-                INN = INN.Text,
-                KPP = KPP.Text,
-                Organization_Name = name.Text,
-                Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null,
-                Phone = phoneUr.Text ?? null,
-                Surname_Director = surDirector.Text ?? null,
-                Firstname_Director = firDirector.Text ?? null,
-                Patronymic_Director = patDirector.Text ?? null,
-                Type_FK = 12,
-                Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key,
-                Type_Enterprise_FK = 1,
+                int? idOrg = (Api.GetOrganization(INN.Text) != null) ? Api.GetOrganization(INN.Text).Organization_Id : null;
+                int idAnimal = Api.GetLastAnimal() + 1;
 
-            };
+                var idApp = Api.GetApplicant(phone.Text, email.Text);
+                int idApplicant = (idApp != null) ? idApp.Applicant_Id : Api.GetLastApplicant() + 1;
 
-            Applicant? applicant = (idApp != null)? null: 
-                new Applicant
+                Organization? organization = (idOrg != null) ? null :
+                    new Organization
+                    {
+                        INN = INN.Text,
+                        KPP = KPP.Text,
+                        Organization_Name = name.Text,
+                        Address = ((KeyValuePair<int, string>)addressUr.SelectedItem).Value ?? null,
+                        Phone = phoneUr.Text ?? null,
+                        Surname_Director = surDirector.Text ?? null,
+                        Firstname_Director = firDirector.Text ?? null,
+                        Patronymic_Director = patDirector.Text ?? null,
+                        Type_FK = 12,
+                        Organization_Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key,
+                        Type_Enterprise_FK = 1,
+
+                    };
+
+                Applicant? applicant = (idApp != null) ? null :
+                    new Applicant
+                    {
+                        Applicant_Id = idApplicant,
+                        Applicant_Phone = phone.Text,
+                        Applicant_Email = email.Text,
+                        Applicant_Surname = surname.Text,
+                        Applicant_Firstname = firstname.Text,
+                        Applicant_Patronymic = patronymic.Text ?? null,
+                        Applicant_Address = address.Text ?? null,
+                        Applicant_Organization_FK = idOrg
+                    };
+
+                Animal animal = new Animal
                 {
-                    Applicant_Id = idApplicant,
-                    Applicant_Phone = phone.Text,
-                    Applicant_Email = email.Text,
-                    Applicant_Surname = surname.Text,
-                    Applicant_Firstname = firstname.Text,
-                    Applicant_Patronymic = patronymic.Text ?? null,
-                    Applicant_Address = address.Text ?? null,
-                    Applicant_Organization_FK = idOrg
+                    Animal_Id = idAnimal,
+                    Sex_FK = ((KeyValuePair<int, string>)sex.SelectedItem).Key,
+                    Size_FK = ((KeyValuePair<int, string>)sizeAnimal.SelectedItem).Key,
+                    Wool_FK = ((KeyValuePair<int, string>)wool.SelectedItem).Key,
+                    Color = color.Text,
+                    Ears = ears.Text,
+                    Tail = tail.Text,
+                    Habitat = habitat.Text,
+                    Signs = signs.Text,
+                    Category_FK = ((KeyValuePair<int, string>)category.SelectedItem).Key
                 };
 
-            Animal animal = new Animal
-            {
-                Animal_Id = idAnimal,
-                Sex_FK = ((KeyValuePair<int, string>)sex.SelectedItem).Key,
-                Size_FK = ((KeyValuePair<int, string>)sizeAnimal.SelectedItem).Key,
-                Wool_FK = ((KeyValuePair<int, string>)wool.SelectedItem).Key,
-                Color = color.Text,
-                Ears = ears.Text,
-                Tail = tail.Text,
-                Habitat = habitat.Text,
-                Signs = signs.Text,
-                Category_FK = ((KeyValuePair<int, string>)category.SelectedItem).Key
-            };
+                Pets_Application? newApplication = new Pets_Application
+                {
+                    Application_Number = int.Parse(regNum.Text),
+                    Filling_Date = DateOnly.FromDateTime(dateApplication.Value),
+                    Animal_FK = idAnimal,
+                    Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key,
+                    Organization_FK = ((KeyValuePair<int, string>)trappingOrg.SelectedItem).Key,
+                    Status_FK = ((KeyValuePair<int, string>)status.SelectedItem).Key,
+                    Status_Date = DateOnly.FromDateTime(dateStatus.Value),
+                    Urgency_FK = ((KeyValuePair<int, string>)urgency.SelectedItem).Key,
+                    Applicant_FK = idApplicant,
+                    Reason = reason.Text
+                };
 
-            Pets_Application? newApplication = new Pets_Application
-            {
-                Application_Number = int.Parse(regNum.Text),
-                Filling_Date = DateOnly.FromDateTime(dateApplication.Value),
-                Animal_FK = idAnimal,
-                Locality_FK = ((KeyValuePair<int, string>)addressUr.SelectedItem).Key,
-                Organization_FK = ((KeyValuePair<int, string>)trappingOrg.SelectedItem).Key,
-                Status_FK = ((KeyValuePair<int, string>)status.SelectedItem).Key,
-                Status_Date = DateOnly.FromDateTime(dateStatus.Value),
-                Urgency_FK = ((KeyValuePair<int, string>)urgency.SelectedItem).Key,
-                Applicant_FK = idApplicant,
-                Reason = reason.Text
-            };
+                MessageBox.Show($"Заявка добавлена");
+                Api.CreateApplication(organization, applicant, animal, newApplication);
+                this.Close();
 
-            MessageBox.Show($"Заявка добавлена");
-            Api.CreateApplication(organization, applicant, animal, newApplication);
-            this.Close();
+            }
+            catch { MessageBox.Show("Проверьте данные"); }
         }
 
         private void delete_Click(object sender, EventArgs e)

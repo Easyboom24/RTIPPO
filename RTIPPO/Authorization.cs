@@ -22,7 +22,8 @@ namespace RTIPPO
         private void authorizate_Click(object sender, EventArgs e)
         {
             user = Api.Authrization(login.Text, password.Text);
-            back_Click(sender, e);
+            if (user != null) back_Click(sender, e);
+            else MessageBox.Show("Неверный логин или пароль");
         }
 
         private void back_Click(object sender, EventArgs e)

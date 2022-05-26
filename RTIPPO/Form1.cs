@@ -156,6 +156,7 @@ namespace RTIPPO
 
         public void Form1_Load(object sender, EventArgs e)
         {
+            if (user != null) button6.Visible = false;
             if (user == null || user.Role_FK != 7)
             {
                 button1.Enabled = false;
